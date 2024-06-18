@@ -11,8 +11,6 @@ import {
   SafeAreaView,
   ScrollView,
   StatusBar,
-  StyleSheet,
-  Text,
   useColorScheme,
   View,
 } from 'react-native';
@@ -24,36 +22,61 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import styled, {ThemeProvider} from 'styled-components/native';
 
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
+const SectionContainer = styled.View`
+  margin-top: 32px;
+  padding-left: 24px;
+  padding-right: 24px;
+`;
+const SectionTitle = styled.Text`
+  font-size: 24em;
+  font-weight: 600;
+  color: ${props => props.theme.color.text.title};
+`;
+const SectionDescription = styled.Text`
+  margin-top: 8px;
+  font-size: 18em;
+  font-weight: 400;
+  color: ${props => props.theme.color.text.body};
+`;
+
+const lightTheme = {
+  color: {
+    text: {
+      title: Colors.black,
+      body: Colors.dark,
+    },
+  },
+};
+const darkTheme = {
+  color: {
+    text: {
+      title: Colors.white,
+      body: Colors.light,
+    },
+  },
+};
+
 function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const theme = useColorScheme() === 'dark' ? darkTheme : lightTheme;
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
+    <ThemeProvider theme={theme}>
+      <SectionContainer>
+        <SectionTitle>{title}</SectionTitle>
+        <SectionDescription>{children}</SectionDescription>
+      </SectionContainer>
+    </ThemeProvider>
   );
 }
+
+const HighlightText = styled.Text`
+  font-weight: 700;
+`;
 
 function Sample(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -77,7 +100,7 @@ function Sample(): React.JSX.Element {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
           <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
+            Edit <HighlightText>App.tsx</HighlightText> to change this screen
             screen and then come back to see your edits.
           </Section>
           <Section title="See Your Changes">
@@ -95,24 +118,5 @@ function Sample(): React.JSX.Element {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default Sample;
