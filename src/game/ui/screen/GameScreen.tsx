@@ -1,45 +1,23 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import Animated, {useAnimatedStyle} from 'react-native-reanimated';
+import {
+  Gesture,
+  GestureDetector,
+  GestureHandlerRootView,
+} from 'react-native-gesture-handler';
+
 import useGameStore from '../../domain/state/gameStore.ts';
 import {GameElement} from '../../domain/const/GameElement.ts';
+import {Void, Land} from '../components/TileElements.tsx';
+import {Player, Box, Goal} from '../components/ActiveElements.tsx';
+import {useSharedValue} from 'react-native-reanimated';
 
-const ITEM_SIZE_PX = 48;
-const CONTENT_SIZE_PX = 32;
-
-const GameCanvas = styled.View`
+const GameCanvas = styled(GestureHandlerRootView)`
   flex: 1;
   align-items: center;
   justify-content: center;
   background-color: black;
-`;
-
-const Grid = styled.View`
-  width: ${ITEM_SIZE_PX}px;
-  height: ${ITEM_SIZE_PX}px;
-  align-items: center;
-  justify-content: center;
-`;
-const Content = styled.View`
-  width: ${CONTENT_SIZE_PX}px;
-  height: ${CONTENT_SIZE_PX}px;
-  align-items: center;
-  justify-content: center;
-`;
-const Void = styled(Grid)`
-  background-color: black;
-`;
-const Land = styled(Grid)`
-  background-color: gray;
-`;
-const Goal = styled(Content)`
-  background-color: coral;
-`;
-const Player = styled(Content)`
-  border-radius: ${ITEM_SIZE_PX / 2}px;
-  background-color: darkgreen;
-`;
-const Box = styled(Content)`
-  background-color: saddlebrown;
 `;
 
 const Column = styled.View`
@@ -51,40 +29,53 @@ const Row = styled.View`
 
 const GameScreen = () => {
   const {grid} = useGameStore();
+  const zoom = useSharedValue(1);
+  const pinch = Gesture.Pinch().onChange(event => {
+    zoom.value = Math.max(Math.min(zoom.value * event.scaleChange, 2.0), 0.5);
+  });
+  const animatedStyles = useAnimatedStyle(() => ({
+    backgroundColor: 'red',
+    transform: [{scale: zoom.value}],
+  }));
   return (
     <GameCanvas>
-      <Row>
-        {grid.map(row => (
-          <Column>
-            {row.map(element => {
-              switch (element) {
-                case GameElement.Land:
-                  return <Land />;
-                case GameElement.Box:
-                  return (
-                    <Land>
-                      <Box />
-                    </Land>
-                  );
-                case GameElement.Player:
-                  return (
-                    <Land>
-                      <Player />
-                    </Land>
-                  );
-                case GameElement.Goal:
-                  return (
-                    <Land>
-                      <Goal />
-                    </Land>
-                  );
-                default:
-                  return <Void />;
-              }
-            })}
-          </Column>
-        ))}
-      </Row>
+      <GestureDetector gesture={pinch}>
+        <Animated.View style={animatedStyles}>
+          <Row>
+            {grid.map((row, x) => (
+              <Column key={x}>
+                {row.map((element, y) => {
+                  const key = `${x}-${y}`;
+                  switch (element) {
+                    case GameElement.Land:
+                      return <Land key={key} />;
+                    case GameElement.Box:
+                      return (
+                        <Land key={key}>
+                          <Box />
+                        </Land>
+                      );
+                    case GameElement.Player:
+                      return (
+                        <Land key={key}>
+                          <Player />
+                        </Land>
+                      );
+                    case GameElement.Goal:
+                      return (
+                        <Land key={key}>
+                          <Goal />
+                        </Land>
+                      );
+                    default:
+                      return <Void key={key} />;
+                  }
+                })}
+              </Column>
+            ))}
+          </Row>
+        </Animated.View>
+      </GestureDetector>
     </GameCanvas>
   );
 };
