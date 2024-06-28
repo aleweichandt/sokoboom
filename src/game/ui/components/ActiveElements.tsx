@@ -1,22 +1,39 @@
-import styled from 'styled-components/native';
+import React from 'react';
+import {View, ViewProps, StyleSheet} from 'react-native';
+
 import {LayoutSize} from '../const/LayoutSize.ts';
 
 const ELEMENT_SIZE_PERCENT = 0.75;
 
-const ActiveElement = styled.View`
-  width: ${LayoutSize.Tile * ELEMENT_SIZE_PERCENT}px;
-  height: ${LayoutSize.Tile * ELEMENT_SIZE_PERCENT}px;
-  align-items: center;
-  justify-content: center;
-`;
+const ActiveElement: React.FC<ViewProps> = ({style, ...props}) => (
+  <View style={[styles.element, style]} {...props} />
+);
 
-export const Goal = styled(ActiveElement)`
-  background-color: coral;
-`;
-export const Player = styled(ActiveElement)`
-  border-radius: ${LayoutSize.Tile * 0.5}px;
-  background-color: darkgreen;
-`;
-export const Box = styled(ActiveElement)`
-  background-color: saddlebrown;
-`;
+export const Goal: React.FC<ViewProps> = ({style, ...props}) => (
+  <ActiveElement style={[styles.goal, style]} {...props} />
+);
+export const Player: React.FC<ViewProps> = ({style, ...props}) => (
+  <ActiveElement style={[styles.player, style]} {...props} />
+);
+export const Box: React.FC<ViewProps> = ({style, ...props}) => (
+  <ActiveElement style={[styles.box, style]} {...props} />
+);
+
+const styles = StyleSheet.create({
+  element: {
+    width: LayoutSize.Tile * ELEMENT_SIZE_PERCENT,
+    height: LayoutSize.Tile * ELEMENT_SIZE_PERCENT,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  goal: {
+    backgroundColor: 'coral',
+  },
+  player: {
+    borderRadius: LayoutSize.Tile * 0.5,
+    backgroundColor: 'darkgreen',
+  },
+  box: {
+    backgroundColor: 'saddlebrown',
+  },
+});

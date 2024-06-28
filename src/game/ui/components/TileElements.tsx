@@ -1,16 +1,30 @@
-import styled from 'styled-components/native';
+import React from 'react';
+import {View, ViewProps, StyleSheet} from 'react-native';
+
 import {LayoutSize} from '../const/LayoutSize.ts';
 
-const Tile = styled.View`
-  width: ${LayoutSize.Tile}px;
-  height: ${LayoutSize.Tile}px;
-  align-items: center;
-  justify-content: center;
-`;
+const Tile: React.FC<ViewProps> = ({style, ...props}) => (
+  <View style={[styles.tile, style]} {...props} />
+);
 
-export const Void = styled(Tile)`
-  background-color: black;
-`;
-export const Land = styled(Tile)`
-  background-color: gray;
-`;
+export const Void: React.FC<ViewProps> = ({style, ...props}) => (
+  <Tile style={[styles.void, style]} {...props} />
+);
+export const Land: React.FC<ViewProps> = ({style, ...props}) => (
+  <Tile style={[styles.land, style]} {...props} />
+);
+
+const styles = StyleSheet.create({
+  tile: {
+    width: LayoutSize.Tile,
+    height: LayoutSize.Tile,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  void: {
+    backgroundColor: 'black',
+  },
+  land: {
+    backgroundColor: 'gray',
+  },
+});
