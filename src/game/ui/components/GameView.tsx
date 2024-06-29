@@ -13,7 +13,7 @@ import {
   GestureHandlerRootView,
 } from 'react-native-gesture-handler';
 
-import {Move} from '../../domain/const/Move';
+import Move from '../../domain/const/Move';
 
 type Props = React.PropsWithChildren & {
   style: StyleProp<ViewStyle>;

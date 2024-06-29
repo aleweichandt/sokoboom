@@ -1,7 +1,12 @@
-import {GameElement} from './GameElement.ts';
-import {Move} from './Move.ts';
+import GameEntity from './GameEntity.ts';
+import MapTile from './MapTile.ts';
+import Move from './Move.ts';
 
-export type GameState = {
-  grid: GameElement[][];
+type GameState = {
+  grid: MapTile[][];
+  player: GameEntity;
+  entities: GameEntity[];
   moves: Move[];
 };
+
+export default GameState;

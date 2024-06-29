@@ -7,13 +7,13 @@ import GameGrid from '../components/GameGrid.tsx';
 import movePlayer from '../../domain/usecase/movePlayer.ts';
 
 const GameScreen = () => {
-  const {grid} = useGameStore();
+  const {grid, entities, player} = useGameStore();
   return (
     <GameView
       style={styles.screen}
       contentStyle={styles.content}
       onMove={movePlayer}>
-      <GameGrid grid={grid} />
+      <GameGrid grid={grid} entities={[player, ...entities]} />
     </GameView>
   );
 };

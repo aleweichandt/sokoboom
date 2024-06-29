@@ -1,37 +1,35 @@
-import React from 'react';
+import React, {PropsWithChildren} from 'react';
 
-import {GameElement} from '../../domain/const/GameElement';
-import {Land, Void} from './TileElements';
-import {Box, Goal, Player} from './ActiveElements';
+import MapTile from '../../domain/const/MapTile';
+import GameEntity from '../../domain/const/GameEntity';
+import {Goal, Land, Void} from './TileElements';
+import TileEntity from './TileEntity';
 
-type Props = {
-  element: GameElement;
+type Props = PropsWithChildren & {
+  tile: MapTile;
+  entity?: GameEntity;
 };
 
-const GameTile: React.FC<Props> = ({element, ...props}) => {
-  switch (element) {
-    case GameElement.Land:
-      return <Land {...props} />;
-    case GameElement.Box:
+const GameTile: React.FC<Props> = ({tile, entity, ...props}) => {
+  switch (tile) {
+    case MapTile.Land:
       return (
         <Land {...props}>
-          <Box />
+          <TileEntity entity={entity} />
         </Land>
       );
-    case GameElement.Player:
+    case MapTile.Goal:
       return (
-        <Land {...props}>
-          <Player />
-        </Land>
-      );
-    case GameElement.Goal:
-      return (
-        <Land {...props}>
-          <Goal />
-        </Land>
+        <Goal {...props}>
+          <TileEntity entity={entity} />
+        </Goal>
       );
     default:
-      return <Void {...props} />;
+      return (
+        <Void {...props}>
+          <TileEntity entity={entity} />
+        </Void>
+      );
   }
 };
 

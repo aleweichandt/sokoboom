@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, ViewProps, StyleSheet} from 'react-native';
 
-import {LayoutSize} from '../const/LayoutSize.ts';
+import LayoutSize from '../const/LayoutSize.ts';
 
 const ELEMENT_SIZE_PERCENT = 0.75;
 
@@ -9,9 +9,6 @@ const ActiveElement: React.FC<ViewProps> = ({style, ...props}) => (
   <View style={[styles.element, style]} {...props} />
 );
 
-export const Goal: React.FC<ViewProps> = ({style, ...props}) => (
-  <ActiveElement style={[styles.goal, style]} {...props} />
-);
 export const Player: React.FC<ViewProps> = ({style, ...props}) => (
   <ActiveElement style={[styles.player, style]} {...props} />
 );
@@ -25,9 +22,6 @@ const styles = StyleSheet.create({
     height: LayoutSize.Tile * ELEMENT_SIZE_PERCENT,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  goal: {
-    backgroundColor: 'coral',
   },
   player: {
     borderRadius: LayoutSize.Tile * 0.5,

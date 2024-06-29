@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, ViewProps, StyleSheet} from 'react-native';
 
-import {LayoutSize} from '../const/LayoutSize.ts';
+import LayoutSize from '../const/LayoutSize.ts';
 
 const Tile: React.FC<ViewProps> = ({style, ...props}) => (
   <View style={[styles.tile, style]} {...props} />
@@ -12,6 +12,9 @@ export const Void: React.FC<ViewProps> = ({style, ...props}) => (
 );
 export const Land: React.FC<ViewProps> = ({style, ...props}) => (
   <Tile style={[styles.land, style]} {...props} />
+);
+export const Goal: React.FC<ViewProps> = ({style, ...props}) => (
+  <Tile style={[styles.goal, style]} {...props} />
 );
 
 const styles = StyleSheet.create({
@@ -26,5 +29,8 @@ const styles = StyleSheet.create({
   },
   land: {
     backgroundColor: 'gray',
+  },
+  goal: {
+    backgroundColor: 'coral',
   },
 });

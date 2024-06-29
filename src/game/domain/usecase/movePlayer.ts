@@ -1,27 +1,15 @@
-import {GameElement} from '../const/GameElement';
-import {Move} from '../const/Move';
+import GameEntity from '../const/GameEntity';
+import MapTile from '../const/MapTile';
+import Move from '../const/Move';
+import Position from '../const/Position';
 import {gameStore} from '../state/gameStore';
 
-type Position = {
-  x: number;
-  y: number;
-};
-
-const getPlayerPosition = (grid: GameElement[][]): Position => {
-  for (let x = 0; x < grid.length; x++) {
-    const col = grid[x];
-    for (let y = 0; y < col.length; y++) {
-      const el = col[y];
-      if (el === GameElement.Player) {
-        return {x, y};
-      }
-    }
-  }
-  return {x: -1, y: -1};
-};
+const samePosition = (entity: GameEntity, other: GameEntity): boolean =>
+  entity.position.x === other.position.x &&
+  entity.position.y === other.position.y;
 
 const getNextPosition = (
-  grid: GameElement[][],
+  grid: MapTile[][],
   {x, y}: Position,
   move: Move,
 ): Position => {
@@ -29,94 +17,77 @@ const getNextPosition = (
     case Move.Up:
       return {x, y: Math.max(y - 1, 0)};
     case Move.Down:
-      return {x, y: Math.min(y + 1, grid[0].length)};
+      return {x, y: Math.min(y + 1, grid.length - 1)};
     case Move.Left:
       return {y, x: Math.max(x - 1, 0)};
     case Move.Right:
-      return {y, x: Math.min(x + 1, grid.length)};
+      return {y, x: Math.min(x + 1, grid[0].length - 1)};
   }
 };
 
-const getElementInPosition = (
-  grid: GameElement[][],
-  {x, y}: Position,
-): GameElement => {
-  return grid[x][y];
-};
+const isAvailablePosition = (grid: MapTile[][], {x, y}: Position): boolean =>
+  grid[y][x] !== MapTile.Void;
 
-const gridWithUpdate = (
-  grid: GameElement[][],
-  pos: Position,
-  element: GameElement,
-) => {
-  const newGrid: GameElement[][] = [];
-  for (let x = 0; x < grid.length; x++) {
-    const newCol: GameElement[] = [];
-    for (let y = 0; y < grid[x].length; y++) {
-      if (pos.x === x && pos.y === y) {
-        newCol.push(element);
-      } else {
-        newCol.push(grid[x][y]);
-      }
-    }
-    newGrid.push(newCol);
-  }
-  return newGrid;
-};
-
-const moveBox = (
-  grid: GameElement[][],
-  boxPosition: Position,
+const moveEntity = (
+  grid: MapTile[][],
+  entities: GameEntity[],
+  target: GameEntity,
   move: Move,
-): [boolean, GameElement[][]] => {
-  const nextPlayerPosition = getNextPosition(grid, boxPosition, move);
-  const element = getElementInPosition(grid, nextPlayerPosition);
-  if (element === GameElement.Land) {
-    const newGrid = gridWithUpdate(
-      gridWithUpdate(grid, boxPosition, GameElement.Land),
-      nextPlayerPosition,
-      GameElement.Box,
-    );
-    return [true, newGrid];
+): [boolean, GameEntity[], GameEntity] => {
+  const nextTarget = {
+    ...target,
+    position: getNextPosition(grid, target.position, move),
+  };
+  if (
+    samePosition(target, nextTarget) ||
+    !isAvailablePosition(grid, nextTarget.position)
+  ) {
+    return [false, entities, target];
   }
-  return [false, grid];
+
+  let nextEntities = entities;
+
+  const nextEntity = entities.find(it => samePosition(it, nextTarget));
+  if (nextEntity) {
+    if (!target.canPushEntities) {
+      return [false, entities, target];
+    }
+
+    const [success, entitiesUpdated] = moveEntity(
+      grid,
+      entities,
+      nextEntity,
+      move,
+    );
+    if (!success) {
+      return [false, entities, target];
+    }
+    nextEntities = entitiesUpdated;
+  }
+
+  const newEntities = nextEntities.map(it => {
+    if (samePosition(it, target)) {
+      return nextTarget;
+    }
+    return it;
+  });
+  return [true, newEntities, nextTarget];
 };
 
 const movePlayer = (move: Move) => {
-  const {grid, moves} = gameStore.getState();
-  const playerPosition = getPlayerPosition(grid);
-  const nextPlayerPosition = getNextPosition(grid, playerPosition, move);
-  const element = getElementInPosition(grid, nextPlayerPosition);
-
-  let nextGrid = grid;
-  let nextMoves = moves;
-  switch (element) {
-    case GameElement.Box:
-      const [moved, gridWithBoxMove] = moveBox(
-        nextGrid,
-        nextPlayerPosition,
-        move,
-      );
-      nextGrid = gridWithBoxMove;
-      if (!moved) {
-        break;
-      }
-    case GameElement.Goal:
-    case GameElement.Land:
-      nextGrid = gridWithUpdate(
-        gridWithUpdate(nextGrid, playerPosition, GameElement.Land),
-        nextPlayerPosition,
-        GameElement.Player,
-      );
-      nextMoves = [...moves, move];
-      break;
-    default:
-      break;
-  }
-  if (nextMoves.length > moves.length) {
+  const {grid, moves, entities, player} = gameStore.getState();
+  const [success, nextEntities, nextPlayer] = moveEntity(
+    grid,
+    [player, ...entities],
+    player,
+    move,
+  );
+  if (success) {
+    const nextMoves = [...moves, move];
     gameStore.setState({
-      grid: nextGrid,
       moves: nextMoves,
+      entities: nextEntities,
+      player: nextPlayer,
     });
   }
 };

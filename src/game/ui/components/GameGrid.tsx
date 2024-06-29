@@ -1,9 +1,9 @@
 import React from 'react';
 import {StyleSheet, View, ViewProps} from 'react-native';
 
-import {GameElement} from '../../domain/const/GameElement.ts';
-import {Void, Land} from '../components/TileElements.tsx';
-import {Player, Box, Goal} from '../components/ActiveElements.tsx';
+import GameTile from './GameTile.tsx';
+import MapTile from '../../domain/const/MapTile.ts';
+import GameEntity from '../../domain/const/GameEntity.ts';
 
 const Column: React.FC<ViewProps> = props => (
   <View style={styles.column} {...props} />
@@ -13,43 +13,29 @@ const Row: React.FC<ViewProps> = props => (
 );
 
 type Props = {
-  grid: GameElement[][];
+  grid: MapTile[][];
+  entities: GameEntity[];
 };
 
-const GameGrid: React.FC<Props> = ({grid}) => (
-  <Row>
-    {grid.map((row, x) => (
-      <Column key={x}>
-        {row.map((element, y) => {
+const GameGrid: React.FC<Props> = ({grid, entities}) => (
+  <Column>
+    {grid.map((row, y) => (
+      <Row key={y}>
+        {row.map((element, x) => {
           const key = `${x}-${y}`;
-          switch (element) {
-            case GameElement.Land:
-              return <Land key={key} />;
-            case GameElement.Box:
-              return (
-                <Land key={key}>
-                  <Box />
-                </Land>
-              );
-            case GameElement.Player:
-              return (
-                <Land key={key}>
-                  <Player />
-                </Land>
-              );
-            case GameElement.Goal:
-              return (
-                <Land key={key}>
-                  <Goal />
-                </Land>
-              );
-            default:
-              return <Void key={key} />;
-          }
+          return (
+            <GameTile
+              key={key}
+              tile={element}
+              entity={entities.find(
+                it => it.position.x === x && it.position.y === y,
+              )}
+            />
+          );
         })}
-      </Column>
+      </Row>
     ))}
-  </Row>
+  </Column>
 );
 
 const styles = StyleSheet.create({
