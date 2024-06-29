@@ -1,6 +1,6 @@
 export enum Move {
   Left = 0,
-  Top = 1,
+  Up = 1,
   Right = 2,
-  Bottom = 3,
+  Down = 3,
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleProp, ViewStyle} from 'react-native';
 import Animated, {
+  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
@@ -12,12 +13,20 @@ import {
   GestureHandlerRootView,
 } from 'react-native-gesture-handler';
 
+import {Move} from '../../domain/const/Move';
+
 type Props = React.PropsWithChildren & {
   style: StyleProp<ViewStyle>;
   contentStyle?: StyleProp<ViewStyle>;
+  onMove?: (move: Move) => void;
 };
 
-const GameView: React.FC<Props> = ({contentStyle, children, ...props}) => {
+const GameView: React.FC<Props> = ({
+  contentStyle,
+  children,
+  onMove = () => {},
+  ...props
+}) => {
   const zoom = useSharedValue(1);
   const offset = useSharedValue({x: 0, y: 0});
   const mapMovement = useSharedValue(false);
@@ -62,19 +71,27 @@ const GameView: React.FC<Props> = ({contentStyle, children, ...props}) => {
   const flingUp = Gesture.Fling()
     .blocksExternalGesture(pan)
     .direction(Directions.UP)
-    .onStart(() => console.log('----> up'));
+    .onStart(() => {
+      runOnJS(onMove)(Move.Up);
+    });
   const flingDown = Gesture.Fling()
     .blocksExternalGesture(pan)
     .direction(Directions.DOWN)
-    .onStart(() => console.log('----> down'));
+    .onStart(() => {
+      runOnJS(onMove)(Move.Down);
+    });
   const flingLeft = Gesture.Fling()
     .blocksExternalGesture(pan)
     .direction(Directions.LEFT)
-    .onStart(() => console.log('----> left'));
+    .onStart(() => {
+      runOnJS(onMove)(Move.Left);
+    });
   const flingRight = Gesture.Fling()
     .blocksExternalGesture(pan)
     .direction(Directions.RIGHT)
-    .onStart(() => console.log('----> right'));
+    .onStart(() => {
+      runOnJS(onMove)(Move.Right);
+    });
 
   const playerGestures = Gesture.Race(
     flingUp,
