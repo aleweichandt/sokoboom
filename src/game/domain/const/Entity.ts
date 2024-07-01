@@ -1,14 +1,14 @@
 import Position from './Position';
 
-export enum GameElement {
+export enum Element {
   Player = 0,
   Box = 1,
 }
 
-type GameEntity = {
-  element: GameElement;
+type Entity = {
+  element: Element;
   position: Position;
   canPushEntities: boolean;
 };
 
-export default GameEntity;
+export default Entity;

@@ -1,22 +1,22 @@
 import {create, StoreApi} from 'zustand';
 import GameState from '../const/GameState.ts';
-import MapTile from '../const/MapTile.ts';
-import {GameElement} from '../const/GameEntity.ts';
+import Tile from '../const/Tile.ts';
+import {Element} from '../const/Entity.ts';
 
 export const initialState: GameState = {
   grid: [
-    [MapTile.Land, MapTile.Land, MapTile.Land, MapTile.Land],
-    [MapTile.Void, MapTile.Land, MapTile.Land, MapTile.Land],
-    [MapTile.Land, MapTile.Land, MapTile.Goal, MapTile.Void],
+    [Tile.Land, Tile.Land, Tile.Land, Tile.Land],
+    [Tile.Void, Tile.Land, Tile.Land, Tile.Land],
+    [Tile.Land, Tile.Land, Tile.Goal, Tile.Void],
   ],
   player: {
-    element: GameElement.Player,
+    element: Element.Player,
     position: {x: 1, y: 2},
     canPushEntities: true,
   },
   entities: [
     {
-      element: GameElement.Box,
+      element: Element.Box,
       position: {x: 1, y: 1},
       canPushEntities: false,
     },

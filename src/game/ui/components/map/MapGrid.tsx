@@ -1,9 +1,8 @@
 import React from 'react';
 import {StyleSheet, View, ViewProps} from 'react-native';
 
-import GameTile from './GameTile.tsx';
-import MapTile from '../../domain/const/MapTile.ts';
-import GameEntity from '../../domain/const/GameEntity.ts';
+import MapTile from './MapTile.tsx';
+import Tile from '../../../domain/const/Tile.ts';
 
 const Column: React.FC<ViewProps> = props => (
   <View style={styles.column} {...props} />
@@ -12,26 +11,17 @@ const Row: React.FC<ViewProps> = props => (
   <View style={styles.row} {...props} />
 );
 
-type Props = {
-  grid: MapTile[][];
-  entities: GameEntity[];
+type Props = ViewProps & {
+  grid: Tile[][];
 };
 
-const GameGrid: React.FC<Props> = ({grid, entities}) => (
-  <Column>
+const MapGrid: React.FC<Props> = ({grid, ...props}) => (
+  <Column {...props}>
     {grid.map((row, y) => (
       <Row key={y}>
         {row.map((element, x) => {
           const key = `${x}-${y}`;
-          return (
-            <GameTile
-              key={key}
-              tile={element}
-              entity={entities.find(
-                it => it.position.x === x && it.position.y === y,
-              )}
-            />
-          );
+          return <MapTile key={key} tile={element} />;
         })}
       </Row>
     ))}
@@ -47,4 +37,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GameGrid;
+export default MapGrid;

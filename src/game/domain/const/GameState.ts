@@ -1,11 +1,11 @@
-import GameEntity from './GameEntity.ts';
-import MapTile from './MapTile.ts';
+import Entity from './Entity.ts';
+import Tile from './Tile.ts';
 import Move from './Move.ts';
 
 type GameState = {
-  grid: MapTile[][];
-  player: GameEntity;
-  entities: GameEntity[];
+  grid: Tile[][];
+  player: Entity;
+  entities: Entity[];
   moves: Move[];
 };
 

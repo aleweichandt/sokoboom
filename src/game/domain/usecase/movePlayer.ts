@@ -1,15 +1,15 @@
-import GameEntity from '../const/GameEntity';
-import MapTile from '../const/MapTile';
+import Entity from '../const/Entity';
+import Tile from '../const/Tile';
 import Move from '../const/Move';
 import Position from '../const/Position';
 import {gameStore} from '../state/gameStore';
 
-const samePosition = (entity: GameEntity, other: GameEntity): boolean =>
+const samePosition = (entity: Entity, other: Entity): boolean =>
   entity.position.x === other.position.x &&
   entity.position.y === other.position.y;
 
 const getNextPosition = (
-  grid: MapTile[][],
+  grid: Tile[][],
   {x, y}: Position,
   move: Move,
 ): Position => {
@@ -25,15 +25,15 @@ const getNextPosition = (
   }
 };
 
-const isAvailablePosition = (grid: MapTile[][], {x, y}: Position): boolean =>
-  grid[y][x] !== MapTile.Void;
+const isAvailablePosition = (grid: Tile[][], {x, y}: Position): boolean =>
+  grid[y][x] !== Tile.Void;
 
 const moveEntity = (
-  grid: MapTile[][],
-  entities: GameEntity[],
-  target: GameEntity,
+  grid: Tile[][],
+  entities: Entity[],
+  target: Entity,
   move: Move,
-): [boolean, GameEntity[], GameEntity] => {
+): [boolean, Entity[], Entity] => {
   const nextTarget = {
     ...target,
     position: getNextPosition(grid, target.position, move),
