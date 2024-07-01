@@ -3,6 +3,7 @@ import {View, ViewProps, StyleSheet, StyleProp, ViewStyle} from 'react-native';
 import Animated, {
   AnimatedProps,
   useAnimatedStyle,
+  withTiming,
 } from 'react-native-reanimated';
 
 import LayoutSize from '../../const/LayoutSize.ts';
@@ -11,20 +12,21 @@ import Position from '../../../domain/const/Position.ts';
 const ELEMENT_SIZE_PERCENT = 0.75;
 
 type Props = AnimatedProps<ViewProps> & {
-  contentStyle?: StyleProp<ViewStyle>;
   position: Position;
+  contentStyle?: StyleProp<ViewStyle>;
 };
 
 const EntityElement: React.FC<Props> = ({
   style,
-  contentStyle,
   position,
+  contentStyle,
   ...props
 }) => {
   const animatedStyle = useAnimatedStyle(
     () => ({
-      top: position.y * LayoutSize.Tile,
-      left: position.x * LayoutSize.Tile,
+      position: 'absolute',
+      left: withTiming(position.x * LayoutSize.Tile),
+      top: withTiming(position.y * LayoutSize.Tile),
     }),
     [position],
   );

@@ -78,7 +78,7 @@ const movePlayer = (move: Move) => {
   const {grid, moves, entities, player} = gameStore.getState();
   const [success, nextEntities, nextPlayer] = moveEntity(
     grid,
-    [player, ...entities],
+    [...entities],
     player,
     move,
   );

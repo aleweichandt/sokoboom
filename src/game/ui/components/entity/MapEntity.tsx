@@ -1,22 +1,21 @@
 import React, {PropsWithChildren} from 'react';
 import {StyleProp, ViewStyle} from 'react-native';
 
-import {Element} from '../../../domain/const/Entity';
+import Entity, {Element} from '../../../domain/const/Entity';
 import {Box, Player} from './EntityElements';
-import Position from '../../../domain/const/Position';
 
 type Props = PropsWithChildren & {
   style?: StyleProp<ViewStyle>;
-  element: Element;
-  position: Position;
+  entity: Entity;
 };
 
-const MapEntity: React.FC<Props> = ({element, ...props}) => {
+const MapEntity: React.FC<Props> = ({entity, ...props}) => {
+  const {element, position} = entity;
   switch (element) {
     case Element.Player:
-      return <Player {...props} />;
+      return <Player position={position} {...props} />;
     case Element.Box:
-      return <Box {...props} />;
+      return <Box position={position} {...props} />;
     default:
       return null;
   }

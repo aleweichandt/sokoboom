@@ -1,6 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, ViewProps} from 'react-native';
-import {useDerivedValue, useSharedValue} from 'react-native-reanimated';
+import {View, ViewProps} from 'react-native';
 
 import Entity from '../../../domain/const/Entity';
 import MapEntity from './MapEntity';
@@ -9,26 +8,14 @@ type Props = ViewProps & {
   entities: Entity[];
 };
 
-const EntitiesLayer: React.FC<Props> = ({style, entities, ...props}) => {
+const EntitiesLayer: React.FC<Props> = ({entities, ...props}) => {
   return (
-    <View style={[styles.container, style]} pointerEvents="none" {...props}>
+    <View pointerEvents="none" {...props}>
       {entities.map((entity, i) => (
-        <MapEntity
-          style={styles.entity}
-          key={`${entity.element}-${i}`}
-          element={entity.element}
-          position={entity.position}
-        />
+        <MapEntity key={`${entity.element}-${i}`} entity={entity} />
       ))}
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {},
-  entity: {
-    position: 'absolute',
-  },
-});
 
 export default EntitiesLayer;
