@@ -19,12 +19,14 @@ type Props = React.PropsWithChildren & {
   style: StyleProp<ViewStyle>;
   contentStyle?: StyleProp<ViewStyle>;
   onMove?: (move: Move) => void;
+  disabled?: boolean;
 };
 
 const GameView: React.FC<Props> = ({
   contentStyle,
   children,
   onMove = () => {},
+  disabled = false,
   ...props
 }) => {
   const zoom = useSharedValue(1);
@@ -42,6 +44,7 @@ const GameView: React.FC<Props> = ({
 
   // Map Gestures
   const pinch = Gesture.Pinch()
+    .enabled(!disabled)
     .onStart(() => {
       mapMovement.value = true;
     })
@@ -52,6 +55,7 @@ const GameView: React.FC<Props> = ({
       mapMovement.value = false;
     });
   const pan = Gesture.Pan()
+    .enabled(!disabled)
     .onStart(() => {
       mapMovement.value = true;
     })
@@ -69,24 +73,28 @@ const GameView: React.FC<Props> = ({
 
   // Player Gestures
   const flingUp = Gesture.Fling()
+    .enabled(!disabled)
     .blocksExternalGesture(pan)
     .direction(Directions.UP)
     .onStart(() => {
       runOnJS(onMove)(Move.Up);
     });
   const flingDown = Gesture.Fling()
+    .enabled(!disabled)
     .blocksExternalGesture(pan)
     .direction(Directions.DOWN)
     .onStart(() => {
       runOnJS(onMove)(Move.Down);
     });
   const flingLeft = Gesture.Fling()
+    .enabled(!disabled)
     .blocksExternalGesture(pan)
     .direction(Directions.LEFT)
     .onStart(() => {
       runOnJS(onMove)(Move.Left);
     });
   const flingRight = Gesture.Fling()
+    .enabled(!disabled)
     .blocksExternalGesture(pan)
     .direction(Directions.RIGHT)
     .onStart(() => {

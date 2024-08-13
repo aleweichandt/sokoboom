@@ -6,7 +6,7 @@ import {Element} from '../const/Entity.ts';
 export const initialState: GameState = {
   grid: [
     [Tile.Land, Tile.Land, Tile.Land, Tile.Land],
-    [Tile.Void, Tile.Land, Tile.Land, Tile.Land],
+    [Tile.Land, Tile.Land, Tile.Land, Tile.Land],
     [Tile.Land, Tile.Land, Tile.Goal, Tile.Void],
   ],
   player: {

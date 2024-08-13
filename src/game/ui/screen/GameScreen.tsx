@@ -11,11 +11,15 @@ import GameView from '../components/GameView.tsx';
 import MapGrid from '../components/map/MapGrid.tsx';
 import movePlayer from '../../domain/usecase/movePlayer.ts';
 import EntitiesLayer from '../components/entity/EntitiesLayer.tsx';
+import endState from '../../domain/state/derived/endState.ts';
+import EndState from '../../domain/const/EndState.ts';
+import EndLayout from '../components/EndLayout.tsx';
 
 type StyleState = StyleProp<ViewStyle> | undefined;
 
 const GameScreen = () => {
   const {grid, player, entities} = useGameStore();
+  const endCondition = useGameStore(endState);
   const [entityStyle, setEntityStyle] = useState<StyleState>(undefined);
   const onLayout = (ev: LayoutChangeEvent) => {
     setEntityStyle({
@@ -28,11 +32,13 @@ const GameScreen = () => {
     <GameView
       style={styles.screen}
       contentStyle={styles.content}
-      onMove={movePlayer}>
+      onMove={movePlayer}
+      disabled={endCondition !== EndState.None}>
       <MapGrid grid={grid} onLayout={onLayout} />
       {entityStyle && (
         <EntitiesLayer style={entityStyle} entities={[player, ...entities]} />
       )}
+      <EndLayout style={styles.end} endState={endCondition} />
     </GameView>
   );
 };
@@ -49,6 +55,10 @@ const styles = StyleSheet.create({
   },
   entity: {
     position: 'absolute',
+  },
+  end: {
+    position: 'absolute',
+    flex: 1,
   },
 });
 
