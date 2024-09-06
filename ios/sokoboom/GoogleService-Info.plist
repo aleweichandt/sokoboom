@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyD5cXDBRkFG8X6Rd_x_eGNYmL1B-8Y0jMw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>681158453191</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.awapps.sokoboom</string>
+	<key>PROJECT_ID</key>
+	<string>sokoboom-3b8b5</string>
+	<key>STORAGE_BUCKET</key>
+	<string>sokoboom-3b8b5.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:681158453191:ios:364d11ffeba33f8cb55be2</string>
+</dict>
+</plist>

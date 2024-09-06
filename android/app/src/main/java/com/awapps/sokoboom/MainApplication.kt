@@ -1,4 +1,4 @@
-package com.sokoboom
+package com.awapps.sokoboom
 
 import android.app.Application
 import com.facebook.react.PackageList
