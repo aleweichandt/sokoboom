@@ -44,62 +44,41 @@ const GameView: React.FC<Props> = ({
 
   // Map Gestures
   const pinch = Gesture.Pinch()
-    .enabled(!disabled)
-    .onStart(() => {
-      mapMovement.value = true;
-    })
+    .onStart(() => { mapMovement.value = true; })
     .onChange(event => {
       zoom.value = Math.max(Math.min(zoom.value * event.scaleChange, 2.0), 0.5);
     })
-    .onEnd(() => {
-      mapMovement.value = false;
-    });
+    .onEnd(() => {  mapMovement.value = false; });
   const pan = Gesture.Pan()
-    .enabled(!disabled)
-    .onStart(() => {
-      mapMovement.value = true;
-    })
+    .minPointers(2)
+    .onStart(() => { mapMovement.value = true; })
     .onChange(event => {
       offset.value = {
         x: Math.max(Math.min(offset.value.x + event.changeX, 100.0), -100.0),
         y: Math.max(Math.min(offset.value.y + event.changeY, 100.0), -100.0),
       };
     })
-    .onEnd(() => {
-      mapMovement.value = false;
-    });
+    .onEnd(() => { mapMovement.value = false; });
 
-  const mapGestures = Gesture.Race(pan, pinch);
+  const mapGestures = Gesture.Simultaneous(pinch, pan);
 
   // Player Gestures
   const flingUp = Gesture.Fling()
     .enabled(!disabled)
-    .blocksExternalGesture(pan)
     .direction(Directions.UP)
-    .onStart(() => {
-      runOnJS(onMove)(Move.Up);
-    });
+    .onStart(() => { runOnJS(onMove)(Move.Up); });
   const flingDown = Gesture.Fling()
     .enabled(!disabled)
-    .blocksExternalGesture(pan)
     .direction(Directions.DOWN)
-    .onStart(() => {
-      runOnJS(onMove)(Move.Down);
-    });
+    .onStart(() => { runOnJS(onMove)(Move.Down); });
   const flingLeft = Gesture.Fling()
     .enabled(!disabled)
-    .blocksExternalGesture(pan)
     .direction(Directions.LEFT)
-    .onStart(() => {
-      runOnJS(onMove)(Move.Left);
-    });
+    .onStart(() => { runOnJS(onMove)(Move.Left); });
   const flingRight = Gesture.Fling()
     .enabled(!disabled)
-    .blocksExternalGesture(pan)
     .direction(Directions.RIGHT)
-    .onStart(() => {
-      runOnJS(onMove)(Move.Right);
-    });
+    .onStart(() => { runOnJS(onMove)(Move.Right); });
 
   const playerGestures = Gesture.Race(
     flingUp,
@@ -108,7 +87,7 @@ const GameView: React.FC<Props> = ({
     flingRight,
   );
 
-  const globalGesture = Gesture.Exclusive(playerGestures, mapGestures);
+  const globalGesture = Gesture.Simultaneous(playerGestures, mapGestures);
 
   return (
     <GestureHandlerRootView {...props}>
