@@ -1,18 +1,19 @@
 import * as React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createStaticNavigation } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import GameScreen from './game/ui/screen/GameScreen.tsx';
 
-const Stack = createNativeStackNavigator();
+const RootStack = createNativeStackNavigator({
+  screens: {
+    Game: GameScreen,
+  },
+});
+const Navigation = createStaticNavigation(RootStack);
 
 function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Game" component={GameScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Navigation />
   );
 }
 
