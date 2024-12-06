@@ -1,12 +1,12 @@
 import GameState from '../../domain/const/GameState';
 import IGameRepository from '../../domain/interface/IGameRepository';
 import StaticGameDataAdapter from '../adapter/StaticGameDataAdapter';
-import StaticGameDatasource from '../datasource/StaticGameDatasource';
+import FRCGameDatasource from '../datasource/FRCGameDatasource';
 
 class GamRepository implements IGameRepository {
   constructor(
-    private readonly datasource: StaticGameDatasource,
-    private readonly adapter: StaticGameDataAdapter,
+    private readonly datasource = new FRCGameDatasource(),
+    private readonly adapter = new StaticGameDataAdapter(),
   ) {}
 
   async getGame(gameId: string): Promise<GameState | undefined> {

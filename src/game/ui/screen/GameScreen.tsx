@@ -12,16 +12,14 @@ import EndLayout from '../components/EndLayout.tsx';
 import GameLayout from './GameLayout.tsx';
 import loadGameFactory from '../../domain/usecase/loadGame.ts';
 import GamRepository from '../../data/repository/GameRepository.ts';
-import StaticGameDatasource from '../../data/datasource/StaticGameDatasource.ts';
-import StaticGameDataAdapter from '../../data/adapter/StaticGameDataAdapter.ts';
 
 type Props = {
-  gameId: string
+  gameId?: string
 }
 
-const loadGame = loadGameFactory(new GamRepository(new StaticGameDatasource(), new StaticGameDataAdapter()));
+const loadGame = loadGameFactory(new GamRepository());
 
-const GameScreen: React.FC<Props> = ({ gameId }) => {
+const GameScreen: React.FC<Props> = ({ gameId = 'game0' }) => {
   const [isLoading, setLoading] = useState(true);
   const endCondition = useGameStore(endState);
 
