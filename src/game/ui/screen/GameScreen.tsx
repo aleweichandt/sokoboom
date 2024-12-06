@@ -1,46 +1,44 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  LayoutChangeEvent,
-  StyleProp,
   StyleSheet,
   View,
-  ViewStyle,
+  ActivityIndicator,
 } from 'react-native';
 
 import useGameStore from '../../domain/state/gameStore.ts';
-import GameView from '../components/GameView.tsx';
-import MapGrid from '../components/map/MapGrid.tsx';
-import movePlayer from '../../domain/usecase/movePlayer.ts';
-import EntitiesLayer from '../components/entity/EntitiesLayer.tsx';
 import endState from '../../domain/state/derived/endState.ts';
 import EndState from '../../domain/const/EndState.ts';
 import EndLayout from '../components/EndLayout.tsx';
+import GameLayout from './GameLayout.tsx';
+import loadGameFactory from '../../domain/usecase/loadGame.ts';
+import GamRepository from '../../data/repository/GameRepository.ts';
+import StaticGameDatasource from '../../data/datasource/StaticGameDatasource.ts';
+import StaticGameDataAdapter from '../../data/adapter/StaticGameDataAdapter.ts';
 
-type StyleState = StyleProp<ViewStyle> | undefined;
+type Props = {
+  gameId: string
+}
 
-const GameScreen = () => {
-  const {grid, player, entities} = useGameStore();
+const loadGame = loadGameFactory(new GamRepository(new StaticGameDatasource(), new StaticGameDataAdapter()));
+
+const GameScreen: React.FC<Props> = ({ gameId }) => {
+  const [isLoading, setLoading] = useState(true);
   const endCondition = useGameStore(endState);
-  const [entityStyle, setEntityStyle] = useState<StyleState>(undefined);
-  const onLayout = (ev: LayoutChangeEvent) => {
-    setEntityStyle({
-      ...styles.entity,
-      width: ev.nativeEvent.layout.width,
-      height: ev.nativeEvent.layout.height,
-    });
-  };
+
+  useEffect(() => {
+    const load = async () => {
+      setLoading(true);
+      await loadGame(gameId);
+      setLoading(false);
+    };
+    load();
+  }, [gameId]);
+
   return (
     <View style={styles.screen}>
-      <GameView
-        style={styles.screen}
-        contentStyle={styles.content}
-        onMove={movePlayer}
-        disabled={endCondition !== EndState.None}>
-        <MapGrid grid={grid} onLayout={onLayout} />
-        {entityStyle && (
-          <EntitiesLayer style={entityStyle} entities={[player, ...entities]} />
-        )}
-      </GameView>
+      {isLoading
+      ? (<ActivityIndicator size="large" style={styles.loader}/>)
+      : (<GameLayout disabled={endCondition !== EndState.None } />)}
       <EndLayout style={styles.end} endState={endCondition} />
     </View>
   );
@@ -51,13 +49,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'black',
   },
-  content: {
-    flex: 1,
-    alignItems: 'center',
+  loader: {
+    width: '100%',
+    height: '100%',
+    alignSelf: 'center',
     justifyContent: 'center',
-  },
-  entity: {
-    position: 'absolute',
   },
   end: {
     position: 'absolute',

@@ -8,6 +8,10 @@ const isInPosition = (entity: Entity, position: Position): boolean =>
   entity.position.x === position.x && entity.position.y === position.y;
 
 const endState = ({grid, entities}: GameState): EndState => {
+  if(grid.length === 0) {
+    return EndState.None;
+  }
+
   const goals: Position[] = [];
   for (let y = 0; y < grid.length; y++) {
     for (let x = 0; x < grid[y].length; x++) {
