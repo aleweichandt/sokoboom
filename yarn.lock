@@ -2050,12 +2050,24 @@
     "prompts" "^2.4.2"
     "semver" "^7.5.2"
 
-"@react-native-firebase/app@^21.6.1":
+"@react-native-firebase/analytics@21.6.1":
+  "integrity" "sha512-rCNPU5HSeFPjoWIxsC+5hObNPF9dv/pcMaYr9Ww6obmzJtrwtmUvwJow+BTV80PvuV7d+C6fWxl9L78EaA861A=="
+  "resolved" "https://registry.npmjs.org/@react-native-firebase/analytics/-/analytics-21.6.1.tgz"
+  "version" "21.6.1"
+  dependencies:
+    "superstruct" "^2.0.2"
+
+"@react-native-firebase/app@^21.6.1", "@react-native-firebase/app@21.6.1":
   "integrity" "sha512-o1i3aQMtJeofue+73j/8KO2l+/bRHaSHqOl7FtIeZfajQZaulaROugD2Rr2Mlc1o7LfEUyoDOoij9nGdrydEyw=="
   "resolved" "https://registry.npmjs.org/@react-native-firebase/app/-/app-21.6.1.tgz"
   "version" "21.6.1"
   dependencies:
     "firebase" "10.13.2"
+
+"@react-native-firebase/remote-config@^21.6.1":
+  "integrity" "sha512-0SfB+8qXAwSH3Eg5G3rCINmqsmRSDlKKxb182jxHgcml4EiYxbak9F0LDB81mAT9t1xpUhn4gBz42KL32YmZDA=="
+  "resolved" "https://registry.npmjs.org/@react-native-firebase/remote-config/-/remote-config-21.6.1.tgz"
+  "version" "21.6.1"
 
 "@react-native/assets-registry@0.76.3":
   "integrity" "sha512-7Fnc3lzCFFpnoyL1egua6d/qUp0KiIpeSLbfOMln4nI2g2BMzyFHdPjJnpLV2NehmS0omOOkrfRqK5u1F/MXzA=="
@@ -7036,6 +7048,11 @@
   "integrity" "sha512-Mu7R0g4ig9TUuGSxJavny5Rv0egCEtpZRNMrZaYS1vxkiIxGiGUwoezU3LazIQ+KE04hTrTfNPgxU5gzi7F5Pw=="
   "resolved" "https://registry.npmjs.org/sudo-prompt/-/sudo-prompt-9.2.1.tgz"
   "version" "9.2.1"
+
+"superstruct@^2.0.2":
+  "integrity" "sha512-uV+TFRZdXsqXTL2pRvujROjdZQ4RAlBUS5BTh9IGm+jTqQntYThciG/qu57Gs69yjnVUSqdxF9YLmSnpupBW9A=="
+  "resolved" "https://registry.npmjs.org/superstruct/-/superstruct-2.0.2.tgz"
+  "version" "2.0.2"
 
 "supports-color@^7.1.0":
   "integrity" "sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw=="
