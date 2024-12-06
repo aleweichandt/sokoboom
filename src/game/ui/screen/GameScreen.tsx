@@ -3,6 +3,7 @@ import {
   LayoutChangeEvent,
   StyleProp,
   StyleSheet,
+  View,
   ViewStyle,
 } from 'react-native';
 
@@ -29,17 +30,19 @@ const GameScreen = () => {
     });
   };
   return (
-    <GameView
-      style={styles.screen}
-      contentStyle={styles.content}
-      onMove={movePlayer}
-      disabled={endCondition !== EndState.None}>
-      <MapGrid grid={grid} onLayout={onLayout} />
-      {entityStyle && (
-        <EntitiesLayer style={entityStyle} entities={[player, ...entities]} />
-      )}
+    <View style={styles.screen}>
+      <GameView
+        style={styles.screen}
+        contentStyle={styles.content}
+        onMove={movePlayer}
+        disabled={endCondition !== EndState.None}>
+        <MapGrid grid={grid} onLayout={onLayout} />
+        {entityStyle && (
+          <EntitiesLayer style={entityStyle} entities={[player, ...entities]} />
+        )}
+      </GameView>
       <EndLayout style={styles.end} endState={endCondition} />
-    </GameView>
+    </View>
   );
 };
 
@@ -58,7 +61,10 @@ const styles = StyleSheet.create({
   },
   end: {
     position: 'absolute',
-    flex: 1,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
   },
 });
 

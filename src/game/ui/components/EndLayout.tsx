@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   label: {
-    flex: 1,
     textAlign: 'center',
     color: 'black',
   },
