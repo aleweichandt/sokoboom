@@ -1,36 +1,45 @@
 import React from 'react';
-import { createStaticNavigation, StaticParamList, StaticScreenProps, useNavigation } from '@react-navigation/native';
+import { createStaticNavigation, StaticParamList } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavGameScreen, NavSplashScreen } from './navigation/screenBindings';
+import routeNames from './navigation/routeNames';
 
-import GameScreen from '../../game/ui/screen/GameScreen.tsx';
-import SplashScreen from './screen/SplashScreen.tsx';
-
-const NavSplashScreen = () => {
-  const navigation = useNavigation();
-  const onFinish = () => { navigation.navigate('Game', { gameId: 'game0' }); };
-  return <SplashScreen onFinish={onFinish} />;
+const linking = {
+  prefixes: ['sokoboom://'],
 };
 
-const NavGameScreen = ({ route }: StaticScreenProps<{ gameId: string }>) => {
-  const { gameId } = route.params;
-  return <GameScreen gameId={gameId} />;
-};
 
 const RootStack = createNativeStackNavigator({
-  initialRouteName: 'Splash',
+  initialRouteName: routeNames.Splash,
   screens: {
-    Splash: NavSplashScreen,
-    Game: NavGameScreen,
+    [routeNames.Splash]: {
+      screen: NavSplashScreen,
+      linking: {
+        path: 'game/:gameId?',
+      },
+    },
+    [routeNames.Game]: {
+      screen: NavGameScreen,
+      linking: {
+        path: '',
+      },
+    },
   },
 });
-const Navigation = createStaticNavigation(RootStack);
 
 type RootStackParamList = StaticParamList<typeof RootStack>;
-
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends RootStackParamList {}
   }
 }
+
+
+const BaseNavigation = createStaticNavigation(RootStack);
+
+const Navigation: React.FC = () => (
+  <BaseNavigation linking={linking}/>
+);
+
 
 export default Navigation;
