@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStaticNavigation, useNavigation, useRoute } from '@react-navigation/native';
+import { createStaticNavigation, StaticParamList, StaticScreenProps, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import GameScreen from '../../game/ui/screen/GameScreen.tsx';
@@ -11,8 +11,7 @@ const NavSplashScreen = () => {
   return <SplashScreen onFinish={onFinish} />;
 };
 
-const NavGameScreen = () => {
-  const route = useRoute();
+const NavGameScreen = ({ route }: StaticScreenProps<{ gameId: string }>) => {
   const { gameId } = route.params;
   return <GameScreen gameId={gameId} />;
 };
@@ -25,5 +24,13 @@ const RootStack = createNativeStackNavigator({
   },
 });
 const Navigation = createStaticNavigation(RootStack);
+
+type RootStackParamList = StaticParamList<typeof RootStack>;
+
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends RootStackParamList {}
+  }
+}
 
 export default Navigation;
