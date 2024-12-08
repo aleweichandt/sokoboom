@@ -8,10 +8,10 @@ import {
 import useGameStore from '../../domain/state/gameStore.ts';
 import endState from '../../domain/state/derived/endState.ts';
 import EndState from '../../domain/const/EndState.ts';
-import EndLayout from '../components/menu/EndLayout.tsx';
 import GameHUD from '../components/hud/GameHUD.tsx';
 import loadGameFactory from '../../domain/usecase/loadGame.ts';
 import GamRepository from '../../data/repository/GameRepository.ts';
+import GameMenu from '../components/menu/GameMenu.tsx';
 
 type Props = {
   gameId?: string
@@ -37,7 +37,7 @@ const GameScreen: React.FC<Props> = ({ gameId = 'game0' }) => {
       {isLoading
       ? (<ActivityIndicator size="large" style={styles.loader}/>)
       : (<GameHUD disabled={endCondition !== EndState.None } />)}
-      <EndLayout style={styles.end} endState={endCondition} />
+      <GameMenu style={styles.menu} />
     </View>
   );
 };
@@ -53,10 +53,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
   },
-  end: {
+  menu: {
     position: 'absolute',
-    alignSelf: 'center',
-    justifyContent: 'center',
     width: '100%',
     height: '100%',
   },

@@ -3,7 +3,7 @@ import {StyleProp, StyleSheet, View, Text, ViewStyle} from 'react-native';
 import EndState from '../../../domain/const/EndState';
 
 type Props = {
-  style: StyleProp<ViewStyle>;
+  style?: StyleProp<ViewStyle>;
   endState: EndState;
 };
 
