@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, ViewProps, StyleSheet} from 'react-native';
 
-import LayoutSize from '../../const/LayoutSize.ts';
+import LayoutSize from '../const/LayoutSize.ts';
 
 const Tile: React.FC<ViewProps> = ({style, ...props}) => (
   <View style={[styles.tile, style]} {...props} />

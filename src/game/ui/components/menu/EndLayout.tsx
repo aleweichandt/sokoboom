@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleProp, StyleSheet, View, Text, ViewStyle} from 'react-native';
-import EndState from '../../domain/const/EndState';
+import EndState from '../../../domain/const/EndState';
 
 type Props = {
   style: StyleProp<ViewStyle>;

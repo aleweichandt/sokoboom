@@ -1,7 +1,7 @@
 import React, {PropsWithChildren} from 'react';
 import {StyleProp, ViewStyle} from 'react-native';
 
-import Entity, {Element} from '../../../domain/const/Entity';
+import Entity, {Element} from '../../../../domain/const/Entity';
 import {Box, Player} from './EntityElements';
 
 type Props = PropsWithChildren & {

@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, ViewProps} from 'react-native';
 
-import Entity from '../../../domain/const/Entity';
+import Entity from '../../../../domain/const/Entity';
 import MapEntity from './MapEntity';
 
 type Props = ViewProps & {

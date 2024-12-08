@@ -6,20 +6,20 @@ import {
   ViewStyle,
 } from 'react-native';
 
-import useGameStore from '../../domain/state/gameStore.ts';
-import GameView from '../components/GameView.tsx';
-import MapGrid from '../components/map/MapGrid.tsx';
-import movePlayer from '../../domain/usecase/movePlayer.ts';
-import EntitiesLayer from '../components/entity/EntitiesLayer.tsx';
+import useGameStore from '../../../domain/state/gameStore.ts';
+import GameControlArea from './GameControlArea.tsx';
+import MapGrid from './map/MapGrid.tsx';
+import movePlayer from '../../../domain/usecase/movePlayer.ts';
+import EntitiesLayer from './entity/EntitiesLayer.tsx';
 
 type Props = {
   disabled?: boolean
 }
 type StyleState = StyleProp<ViewStyle> | undefined;
 
-const GameLayout: React.FC<Props> = ({disabled = false}) => {
+const GameHUD: React.FC<Props> = ({disabled = false}) => {
   const {grid, player, entities} = useGameStore();
-  const [entityStyle, setEntityStyle] = useState<StyleState>(undefined);
+  const [entityStyle, setEntityStyle] = useState<StyleState>(styles.entity);
   const onLayout = (ev: LayoutChangeEvent) => {
     setEntityStyle({
       ...styles.entity,
@@ -28,16 +28,14 @@ const GameLayout: React.FC<Props> = ({disabled = false}) => {
     });
   };
   return (
-      <GameView
+      <GameControlArea
         style={styles.screen}
         contentStyle={styles.content}
         onMove={movePlayer}
         disabled={disabled}>
         <MapGrid grid={grid} onLayout={onLayout} />
-        {entityStyle && (
-          <EntitiesLayer style={entityStyle} entities={[player, ...entities]} />
-        )}
-      </GameView>
+        <EntitiesLayer style={entityStyle} entities={[player, ...entities]} />
+      </GameControlArea>
   );
 };
 
@@ -56,4 +54,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GameLayout;
+export default GameHUD;

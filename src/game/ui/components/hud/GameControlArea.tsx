@@ -13,7 +13,7 @@ import {
   GestureHandlerRootView,
 } from 'react-native-gesture-handler';
 
-import Move from '../../domain/const/Move';
+import Move from '../../../domain/const/Move';
 
 type Props = React.PropsWithChildren & {
   style: StyleProp<ViewStyle>;
@@ -22,7 +22,7 @@ type Props = React.PropsWithChildren & {
   disabled?: boolean;
 };
 
-const GameView: React.FC<Props> = ({
+const GameControlArea: React.FC<Props> = ({
   contentStyle,
   children,
   onMove = () => {},
@@ -100,4 +100,4 @@ const GameView: React.FC<Props> = ({
   );
 };
 
-export default GameView;
+export default GameControlArea;

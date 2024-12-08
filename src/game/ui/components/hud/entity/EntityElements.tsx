@@ -6,8 +6,8 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import LayoutSize from '../../const/LayoutSize.ts';
-import Position from '../../../domain/const/Position.ts';
+import LayoutSize from '../const/LayoutSize.ts';
+import Position from '../../../../domain/const/Position.ts';
 
 const ELEMENT_SIZE_PERCENT = 0.75;
 

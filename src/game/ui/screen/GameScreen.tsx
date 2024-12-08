@@ -8,8 +8,8 @@ import {
 import useGameStore from '../../domain/state/gameStore.ts';
 import endState from '../../domain/state/derived/endState.ts';
 import EndState from '../../domain/const/EndState.ts';
-import EndLayout from '../components/EndLayout.tsx';
-import GameLayout from './GameLayout.tsx';
+import EndLayout from '../components/menu/EndLayout.tsx';
+import GameHUD from '../components/hud/GameHUD.tsx';
 import loadGameFactory from '../../domain/usecase/loadGame.ts';
 import GamRepository from '../../data/repository/GameRepository.ts';
 
@@ -36,7 +36,7 @@ const GameScreen: React.FC<Props> = ({ gameId = 'game0' }) => {
     <View style={styles.screen}>
       {isLoading
       ? (<ActivityIndicator size="large" style={styles.loader}/>)
-      : (<GameLayout disabled={endCondition !== EndState.None } />)}
+      : (<GameHUD disabled={endCondition !== EndState.None } />)}
       <EndLayout style={styles.end} endState={endCondition} />
     </View>
   );

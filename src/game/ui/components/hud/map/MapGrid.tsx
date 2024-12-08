@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, View, ViewProps} from 'react-native';
 
 import MapTile from './MapTile.tsx';
-import Tile from '../../../domain/const/Tile.ts';
+import Tile from '../../../../domain/const/Tile.ts';
 
 const Column: React.FC<ViewProps> = props => (
   <View style={styles.column} {...props} />

@@ -1,6 +1,6 @@
 import React, {PropsWithChildren} from 'react';
 
-import Tile from '../../../domain/const/Tile';
+import Tile from '../../../../domain/const/Tile';
 import {Goal, Land, Void} from './TileElements';
 
 type Props = PropsWithChildren & {
