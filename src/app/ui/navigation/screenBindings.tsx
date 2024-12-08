@@ -8,7 +8,7 @@ import routeNames from './routeNames';
 type GameIdRouteProps = StaticScreenProps<{ gameId?: string }>
 
 export const NavSplashScreen = ({ route }: GameIdRouteProps) => {
-  const { gameId = 'game0' } = route.params || {};
+  const { gameId = 'gameDemo' } = route.params || {};
   const navigation = useNavigation();
   const onFinish = () => {
     navigation.dispatch(StackActions.replace(routeNames.Game, { gameId }));
