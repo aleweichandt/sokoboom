@@ -7,9 +7,12 @@ import Tile from '../../const/Tile';
 const isInPosition = (entity: Entity, position: Position): boolean =>
   entity.position.x === position.x && entity.position.y === position.y;
 
-const endState = ({grid, entities}: GameState): EndState => {
+const endState = ({grid, entities, remainingTimeMillis }: GameState): EndState => {
   if(grid.length === 0) {
     return EndState.None;
+  }
+  if(remainingTimeMillis === 0) {
+    return EndState.Loose;
   }
 
   const goals: Position[] = [];

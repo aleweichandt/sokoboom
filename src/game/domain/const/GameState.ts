@@ -8,6 +8,7 @@ type GameState = {
   entities: Entity[];
   moves: Move[];
   remainingTimeMillis: number
+  timeRef: NodeJS.Timeout | undefined
 };
 
 export default GameState;

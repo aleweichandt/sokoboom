@@ -51,6 +51,7 @@ class StaticGameDataAdapter {
       entities,
       moves: [],
       remainingTimeMillis,
+      timeRef: undefined,
     };
   }
 }

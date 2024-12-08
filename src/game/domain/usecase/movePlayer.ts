@@ -3,6 +3,10 @@ import Tile from '../const/Tile';
 import Move from '../const/Move';
 import Position from '../const/Position';
 import {gameStore} from '../state/gameStore';
+import startCounter from './startCounter';
+import endState from '../state/derived/endState';
+import EndState from '../const/EndState';
+import stopCounter from './stopCounter';
 
 const samePosition = (entity: Entity, other: Entity): boolean =>
   entity.position.x === other.position.x &&
@@ -89,6 +93,14 @@ const movePlayer = (move: Move) => {
       entities: nextEntities,
       player: nextPlayer,
     });
+
+    // update timer
+    if(moves.length === 0) {
+      startCounter();
+    }
+    if(endState(gameStore.getState()) !== EndState.None) {
+      stopCounter();
+    }
   }
 };
 
