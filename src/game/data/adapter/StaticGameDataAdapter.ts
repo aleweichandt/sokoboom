@@ -14,7 +14,9 @@ class StaticGameDataAdapter {
     const entities: Entity[] = [];
     const grid: Tile[][] = [];
 
-    rawData.forEach((row, y) => {
+    const [remainingTimeMillis, rawGrid] = rawData;
+
+    rawGrid.forEach((row, y) => {
       const gridRow: Tile[] = [];
       row.forEach((entry, x) => {
         let tile = Tile.Land;
@@ -48,6 +50,7 @@ class StaticGameDataAdapter {
       player,
       entities,
       moves: [],
+      remainingTimeMillis,
     };
   }
 }

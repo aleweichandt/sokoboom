@@ -1,3 +1,3 @@
-type StaticGameData = number[][]
+type StaticGameData = [number, number[][]]
 
 export default StaticGameData;

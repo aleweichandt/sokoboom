@@ -7,6 +7,7 @@ type GameState = {
   player: Entity;
   entities: Entity[];
   moves: Move[];
+  remainingTimeMillis: number
 };
 
 export default GameState;

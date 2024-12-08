@@ -6,9 +6,12 @@ class StaticGameDatasource {
   async fetchGameData(_gameId: string): Promise<StaticGameData | undefined> {
     await new Promise(r => setTimeout(r, 1000));
     return [
-      [0, 0, 0, 0],
-      [0, 2, 0, 0],
-      [0, 1, 3, -1],
+      10000,
+      [
+        [0, 0, 0, 0],
+        [0, 2, 0, 0],
+        [0, 1, 3, -1],
+      ],
     ];
   }
 }

@@ -11,6 +11,7 @@ export const initialState: GameState = {
   },
   entities: [],
   moves: [],
+  remainingTimeMillis: 0,
 };
 
 const useGameStore = create<GameState>()(() => initialState);
